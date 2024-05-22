@@ -9,7 +9,7 @@ router.use("/auth", authRoutes);
 const studentRoutes = require("./students.routes");
 router.use("/students", studentRoutes);
 
-const teacherRoutes = require("./teachers.routes");
+const teacherRoutes = require("./teacher.routes");
 router.use("/teachers", teacherRoutes);
 
 module.exports = router;

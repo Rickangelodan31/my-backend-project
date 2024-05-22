@@ -1,12 +1,12 @@
-const jwt = require('jsonwebtoken')
-const { Student, Teacher } = require('../models');
-
+const jwt = require("jsonwebtoken");
+const Student = require('../Models/Student.model');
+const Teacher = require('../Models/Teacher.model');
 
 
 const isAuthenticated = async (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
@@ -14,23 +14,23 @@ const isAuthenticated = async (req, res, next) => {
     const { userId, userType } = decoded;
     let user;
 
-    if (userType === 'student') {
+    if (userType === "student") {
       user = await Student.findById(userId);
-    } else if (userType === 'teacher') {
+    } else if (userType === "teacher") {
       user = await Teacher.findById(userId);
     } else {
-      return res.status(401).json({ message: 'Invalid user type' });
+      return res.status(401).json({ message: "Invalid user type" });
     }
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     req.tokenPayload = decoded;
     req.user = user; // Attach user object to request for further use
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Unauthorized' });
+    res.status(401).json({ message: "Unauthorized" });
   }
 };
 

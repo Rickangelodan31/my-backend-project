@@ -4,13 +4,17 @@ router.get("/", (req, res) => {
   res.json("All good in here");
 });
 
-const teacherRoutes = require("./teacher.routes");
-router.use("/teacher", teacherRoutes);
+const teacherRoutes = require("./routes/teacher.routes");
+router.use("/api/teacher", teacherRoutes);
 
-const studentRoutes = require("./student.routes");
+const studentRoutes = require("./routes/students.routes");
 router.use("/student", studentRoutes);
 
-const userRoutes = require("./user.routes");
+const userRoutes = require("./routes/user.routes");
 router.use("/users", userRoutes);
 
-module.exports = router;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+}),
+  (module.exports = router);

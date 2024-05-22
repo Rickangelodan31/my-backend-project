@@ -19,13 +19,13 @@ app.use("/api", indexRoutes);
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
-const courseRoutes = require("./routes/courses.routes");
-app.use("/course", courseRoutes);
+const coursesRoutes = require("./routes/courses.routes");
+app.use("/course", coursesRoutes);
 
 const studentRoutes = require("./routes/students.routes");
 app.use("/student", studentRoutes);
 
-const teacherRoutes = require("./routes/teachers.routes");
+const teacherRoutes = require("./routes/teacher.routes");
 app.use("/teacher", teacherRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes

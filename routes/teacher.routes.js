@@ -1,12 +1,13 @@
 const router = require("express").Router();
 const Teacher = require("../Models/Teacher.model");
+const Student = require('../Models/Student.model');
 const uploader = require("../middlewares/cloudinary.config");
 const { isAuthenticated } = require("../middlewares/route-gaurd.middleware");
 
 // All routes start with /api/teacher
 
-router.post(
-  "/grade/:studentId/:courseId",
+router.post("/",
+  // "/grade/:studentId/:courseId",
   isAuthenticated,
   uploader.single("image"),
   async (req, res) => {
