@@ -1,0 +1,20 @@
+# Ignore node_modules folder
+node_modules
+
+# Ignore .env file (may contain sensitive data)
+.env
+
+# Ignore OS generated files (Mac and Windows)
+.DS_Store
+Thumbs.db
+
+*.log
+.idea
+.vscode
+coverage
+
+# Ignore build output
+dist/
+build/
+
+touch .gitignore
