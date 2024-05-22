@@ -22,7 +22,7 @@ app.use("/auth", authRoutes);
 const coursesRoutes = require("./routes/courses.routes");
 app.use("/course", coursesRoutes);
 
-const studentRoutes = require("./routes/students.routes");
+const studentRoutes = require("./routes/student.routes");
 app.use("/student", studentRoutes);
 
 const teacherRoutes = require("./routes/teacher.routes");
