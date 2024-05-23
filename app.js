@@ -12,26 +12,5 @@ const app = express();
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
 
-// 👇 Start handling routes here
-const indexRoutes = require("./routes/index.routes");
-app.use("/api", indexRoutes);
-
-const authRoutes = require("./routes/auth.routes");
-app.use("/auth", authRoutes);
-
-const coursesRoutes = require("./routes/courses.routes");
-app.use("/course", coursesRoutes);
-
-const studentRoutes = require("./routes/student.routes");
-app.use("/student", studentRoutes);
-
-const teacherRoutes = require("./routes/teacher.routes");
-app.use("/teacher", teacherRoutes);
-
-const techCourseRoutes = require("./routes/tech-course.routes");
-app.use("/techCourse", techCourseRoutes);
-
-// ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
-require("./error-handling")(app);
 
 module.exports = app;

@@ -1,13 +1,26 @@
-const app = require('./app')
-const withDB = require('./db')
+const express = require('express');
+const withDB = require('./db');
+const techCourses = require('./techCourses');
 
-// ℹ️ Sets the PORT for our app to have access to it. If no env has been set, we hard code it to 5005
-const PORT = process.env.PORT || 5005
+const app = express();
+const PORT = process.env.PORT || 5005;
 
-// ℹ️ Connects to the database
+app.use(express.json());
+
+// Route to handle the root URL
+app.get('/', (req, res) => {
+  res.send('<h1>Welcome to the Tech Courses API</h1>');
+});
+
+// Route to fetch all tech courses
+app.get('/api/techCourses', (_, res) => {
+  res.json(techCourses);
+});
+
+// Connect to the database and start listening for requests
 withDB(() => {
-  // ℹ️ If connection was successful, start listening for requests
   app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`)
-  })
-})
+    console.log(`Server listening on http://localhost:${PORT}`);
+  });
+});
+
