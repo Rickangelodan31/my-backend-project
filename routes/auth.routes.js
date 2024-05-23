@@ -11,7 +11,8 @@ router.get("/", (req, res) => {
 
 // Student signup
 router.post("/student/signup", async (req, res) => {
-  const { username, firstName, lastName, dateOfBirth, program, password } = req.body;
+  const { username, firstName, lastName, dateOfBirth, program, password } =
+    req.body;
   const saltRounds = 13;
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashedPassword = bcrypt.hashSync(password, salt);
@@ -24,7 +25,7 @@ router.post("/student/signup", async (req, res) => {
     const newUser = await User.create({
       firstName,
       lastName,
-      dateOfBirth,
+      dateOfBirth: new Date(dateOfBirth),
       username,
       program,
       usertype: "student",
@@ -52,8 +53,8 @@ router.post("/teacher/signup", async (req, res) => {
     const newUser = await User.create({
       firstName,
       lastName,
-      dateOfBirth,
       username,
+      dateOfBirth: new Date(dateOfBirth),
       usertype: "teacher",
       hashedPassword,
     });
@@ -74,20 +75,17 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "User not found" });
     }
 
-    if (!bcrypt.compareSync(password, potentialUser.hashedPassword)) {
+    if (!(await bcrypt.compare(password, potentialUser.hashedPassword))) {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
-    const authToken = jwt.sign(
-      { userId: potentialUser._id, userType: potentialUser.usertype },
-      process.env.TOKEN_SECRET,
-      { algorithm: "HS256", expiresIn: "6h" }
-    );
+    // Generate JWT token
+    const token = generateToken(potentialUser);
 
-    res.status(200).json({ message: "Password Accepted", token: authToken });
+    res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "There is a problem" });
+    res.status(500).json({ message: "Error logging in" });
   }
 });
 
@@ -102,5 +100,12 @@ router.get("/user", isAuthenticated, async (req, res) => {
     res.status(500).json({ message: "Error fetching current user" });
   }
 });
+function generateToken(user) {
+  return jwt.sign(
+    { userId: user._id, userType: user.usertype },
+    process.env.TOKEN_SECRET,
+    { algorithm: "HS256", expiresIn: "6h" }
+  );
+}
 
 module.exports = router;

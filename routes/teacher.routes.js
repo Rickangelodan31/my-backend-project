@@ -47,23 +47,28 @@ router.post(
   }
 );
 
-router.get("/", isAuthenticated, async (req, res) => {
-  try {
-    const teacher = await Teacher.findById(req.tokenPayload.userId).select("-password");
-    if (!teacher) {
-      return res.status(404).json({
-        message: "Teacher not found",
-        nextSteps: "Please check your user ID and try again. If the problem persists, contact support.",
+router.get(
+  "/profile",
+  isAuthenticated,
+  async (req, res) => {
+    try {
+      // Retrieve teacher profile based on authentication
+      const teacher = await Teacher.findById(req.tokenPayload.userId);
+      if (!teacher) {
+        return res.status(404).json({
+          message: "Teacher not found",
+          nextSteps: "Please check your user ID and try again. If the problem persists, contact support.",
+        });
+      }
+      res.status(200).json(teacher);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+        nextSteps: "Please try again later. If the problem persists, contact support.",
       });
     }
-    res.json(teacher);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      nextSteps: "Please try again later. If the problem persists, contact support.",
-    });
   }
-});
+);
 
 router.put("/", isAuthenticated, async (req, res) => {
   try {

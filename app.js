@@ -28,6 +28,9 @@ app.use("/student", studentRoutes);
 const teacherRoutes = require("./routes/teacher.routes");
 app.use("/teacher", teacherRoutes);
 
+const techCourseRoutes = require("./routes/tech-course.routes");
+app.use("/techCourse", techCourseRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
